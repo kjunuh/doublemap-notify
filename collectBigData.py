@@ -25,14 +25,26 @@ def stopName(id):
 def saveData(interval):
     # interval in seconds
     global folder
+    start = time.strftime("%I:%M:%S%p", time.localtime())
+    stops = pd.DataFrame(get("http://iub.doublemap.com/map/v2/stops").json())
+    stops.drop(['code', 'ivr_code', 'description'], axis=1, inplace=True)
+    stops['time'] = time.localtime()
+
+    routes = pd.DataFrame(get("http://iub.doublemap.com/map/v2/routes").json())
+    routes.drop(['description'], axis=1, inplace=True)
+    routes['time'] = time.localtime()
+
+
     bigDF = pd.DataFrame()
     for i in tqdm(range(interval)):
         newDF = getDF()
-        bigDF = pd.concat([newDF, bigDF])
+        bigDF = pd.concat([newDF, bigDF]).drop_duplicates()
         time.sleep(1)
-    bigDF.drop_duplicates()
+    end = time.strftime("%I:%M:%S%p", time.localtime())
+    # fName = start+'_to_'+end+"_on_"+time.strftime("", time.localtime())
+    fName = "testHDF"
+    stops.to_hdf(folder+fName+'.h5', key='stops')
+    routes.to_hdf(folder+fName+'.h5', key='routes')
+    bigDF.to_hdf(folder+fName+'.h5', key='buses')
 
-    routes = pd.DataFrame(get("http://iub.doublemap.com/map/v2/routes").json())
-    bigDF.to_hdf(folder+'bus.h5', key='df')
-
-saveData(30)
+saveData(3)

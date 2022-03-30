@@ -20,9 +20,14 @@ for path in master:
     for i in range(len(path[3])):
         pairs.append([path[2][i], path[3][i]])
     pairMaster.append([path[0], path[1], pairs])
+    plt.plot(path[2], path[3], label=path[1], alpha=.25)
+    plt.scatter(path[2], path[3], label=path[1], s=.5)
+    ax = plt.gca()
+
+ax.set_facecolor('#dddddd')
+ax.legend(loc='best')
 print(pairMaster)
 
-    # plt.scatter(path[2], path[3], label=path[1], alpha=.25)
+plt.plot(path[2], path[3], label=path[1], alpha=.25)
 plt.show()
-
-math.dist([], [])
+# math.dist([], [])

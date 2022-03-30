@@ -1,6 +1,8 @@
 from requests import get 
 import pandas as pd 
 import matplotlib.pyplot as plt
+from datetime import datetime
+import tzlocal
 
 routes = pd.DataFrame(get("http://iub.doublemap.com/map/v2/routes").json())
 stops = pd.DataFrame(get("http://iub.doublemap.com/map/v2/stops").json())
