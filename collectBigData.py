@@ -40,9 +40,10 @@ def saveData(interval):
         time.sleep(1)
     end = time.strftime("%I:%M:%S%p", time.localtime())
     # fName = start+'_to_'+end+"_on_"+time.strftime("", time.localtime())
-    fName = "testHDF"
+    fName = "2hr3-30"
+    print(stops, routes)
     stops.to_hdf(folder+fName+'.h5', key='stops')
     routes.to_hdf(folder+fName+'.h5', key='routes')
     bigDF.to_hdf(folder+fName+'.h5', key='buses')
 
-saveData(3)
+saveData(2*60*60)
