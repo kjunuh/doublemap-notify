@@ -28,11 +28,9 @@ def saveData(interval):
     start = time.strftime("%I:%M:%S%p", time.localtime())
     stops = pd.DataFrame(get("http://iub.doublemap.com/map/v2/stops").json())
     stops.drop(['code', 'ivr_code', 'description'], axis=1, inplace=True)
-    stops['time'] = time.localtime()
 
     routes = pd.DataFrame(get("http://iub.doublemap.com/map/v2/routes").json())
     routes.drop(['description'], axis=1, inplace=True)
-    routes['time'] = time.localtime()
 
 
     bigDF = pd.DataFrame()
@@ -47,4 +45,4 @@ def saveData(interval):
     routes.to_hdf(folder+fName+'.h5', key='routes')
     bigDF.to_hdf(folder+fName+'.h5', key='buses')
 
-saveData(3)
+saveData(2*60*60)
