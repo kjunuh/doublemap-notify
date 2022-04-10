@@ -4,13 +4,14 @@ from datetime import datetime
 import tzlocal  
 
 # ts = float("1284101485")
-timezone = tzlocal.get_localzone() # get pytz timezone
 # locTime = datetime.fromtimestamp(ts, timezone)
-df = pd.read_hdf('data/d2.h5').drop_duplicates()
-
-df['time'] = [datetime.fromtimestamp(x,timezone).strftime("%I:%M:%S %p") for x in df['lastUpdate']]
+df = pd.read_hdf('data/2hr3-30.h5', key='buses')
 df.sort_values(['lastUpdate'], ascending=True, inplace=True)
+
+df['time'] = [datetime.fromtimestamp(x,tzlocal.get_localzone()).strftime("%I:%M:%S %p") for x in df['lastUpdate']]
+
 buses = [df.loc[df['name']==x] for x in df['name'].unique()]
+print(buses)
 
 def x(fName):
     stops = pd.read_hdf(fName, key='stops')
@@ -21,6 +22,7 @@ def x(fName):
     sbus = []
     for busID in buses['id'].unique():
         sbus.append(buses.loc[buses['id']==busID])
-    
+    print(sbus)
+
 
     

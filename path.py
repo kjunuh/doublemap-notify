@@ -24,10 +24,10 @@ for path in master:
     plt.scatter(path[2], path[3], label=path[1], s=.5)
     ax = plt.gca()
 
-ax.set_facecolor('#dddddd')
-ax.legend(loc='best')
+# ax.set_facecolor('#dddddd')
+# ax.legend(loc='best')
 print(pairMaster)
 
 plt.plot(path[2], path[3], label=path[1], alpha=.25)
 plt.show()
-# math.dist([], [])
+# # math.dist([], [])
