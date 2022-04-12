@@ -15,8 +15,11 @@ def makePathDF(routesDF):
         outDF = pd.DataFrame()
         outDF['lat'] = [coordinate for i, coordinate in enumerate(route['path'].values[0]) if not i%2]
         outDF['lon'] = [coordinate for i, coordinate in enumerate(route['path'].values[0]) if i%2]
+        print(routeName)
         outDF.to_hdf(saveFile, key=routeName)
     # return outDF
+
+makePathDF(routes)
 
 with pd.HDFStore('routes/routePaths.h5') as f:
     keys = f.keys()
@@ -28,9 +31,6 @@ plt.savefig("F_route.png")
 
 # def distanceTraveled(lat, lon, routePath):
 
-
-
-
 # plot all routes
 # for key in keys:
 #     coords = pd.read_hdf('routes/routePaths.h5', key=key)
@@ -38,4 +38,3 @@ plt.savefig("F_route.png")
 #     plt.scatter(coords['lon'], coords['lat'], s=3, marker='x')
 
 # plt.show()
-
