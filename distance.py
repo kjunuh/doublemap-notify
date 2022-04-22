@@ -1,24 +1,36 @@
 import pandas as pd
 from requests import get 
-from datetime import datetime"editor.minimap.enabled": false
+from datetime import datetime
 
+import matplotlib.pyplot as plt
 import tzlocal
 import time
 from tqdm import tqdm
 from math import dist
+from scipy.spatial.distance import cdist
 
-def distFromStart(busPos,routeName):
-    # busPos = [lat, lon], routeName = 'F' or '/F'
-    route = pd.read_hdf('routes/routePaths.h5', key = routeName).values
-    totalDist = 0
-    for i in range(len(route)-1):
-        if (dist(route[i], busPos) + dist(route[i], busPos)) < ((dist(route[i+1], busPos) + dist(route[i+2], busPos))): 
-            # and heading towards route[i+1]:
-            totalDist += dist(route[i], busPos)
-            return totalDist, i
-        else:
-            totalDist += (dist(route[i],route[i]))22
+def closest_node(node, nodes):
+    print(cdist([node], nodes).argmin())
+    return nodes[cdist([node], nodes).argmin()]
 
-def closest()
-point = [ 39.17965, -86.52678]
-print(distFromStart(point,'F'))
+def distFromStart(dfElem, routes):
+    point = [dfElem['lat'], dfElem['lon']]
+    # print(dfElem['route'])
+    path = routes.loc[routes['id'] == dfElem['route']]['path'].values[0]
+    # print(path)
+    coords = [(path[i], path[i+1]) for i in range(0, len(path), 2)]
+    closest = closest_node(point, coords)
+    
+    # plt.scatter(closest[0], closest[1], marker='*')
+    # plt.scatter(point[0], point[1], marker='x')
+    # plt.scatter([x[0] for x in coords], [x[1] for x in coords], marker='o', alpha=.5)
+    # plt.show()
+    
+    # print(coords)
+    
+
+fName = 'data/2hr3-30.h5'
+buses = pd.read_hdf(fName, key='buses').sort_values('lastUpdate')
+routes = pd.read_hdf(fName, key='routes')
+
+distFromStart(buses.iloc[20], routes)

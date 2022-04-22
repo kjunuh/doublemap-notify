@@ -14,4 +14,4 @@ with pd.HDFStore(saveFile) as f:
 paths = []
 for rkey in keys:
     paths.append([rkey,pd.read_hdf('routes/routePaths.h5', key  = rkey)])
-[print(x, end='\t') for x in vars().keys() if type(x)!='list'] 
+[print(x) for x in vars().keys() if type(x)!='list' and x[0] != '_'] 
